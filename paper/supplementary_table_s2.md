@@ -1,0 +1,10 @@
+# Supplementary Table S2: Cross-Cohort Pathway Overlap
+
+| Rank Cutoff   |   GSE24206 Pathways |   GSE53845 Pathways |   Overlap (n) |   Jaccard Index | Common Pathways                                                    |
+|:--------------|--------------------:|--------------------:|--------------:|----------------:|:-------------------------------------------------------------------|
+| Top-5         |                   5 |                   5 |             2 |           0.25  | HALLMARK_CHOLESTEROL_HOMEOSTASIS, HALLMARK_TNFA_SIGNALING_VIA_NFKB |
+| Top-10        |                  10 |                  10 |             2 |           0.111 | HALLMARK_CHOLESTEROL_HOMEOSTASIS, HALLMARK_TNFA_SIGNALING_VIA_NFKB |
+| Top-15        |                  15 |                  15 |             7 |           0.304 | 7 pathways (see Table S1)                                          |
+| Top-20        |                  20 |                  20 |             8 |           0.25  | 8 pathways (see Table S1)                                          |
+
+Jaccard Index = |A intersect B| / |A union B| where A and B are top-N pathway sets from each cohort.

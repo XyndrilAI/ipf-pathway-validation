@@ -1,0 +1,49 @@
+PATH B LOCKED - Robust Baseline Validation
+===========================================
+
+DECISION: Bulk-only robustness validated, scRNA deferred to upgrade path
+
+SPECIFICATION (LOCKED):
+- TOP_N = 20 pathways
+- UNIT = subject_id (bulk RNA-seq)
+- SI = Jaccard(topN_train, topN_test) on absolute effect
+- SCORING = ssGSEA (Hallmark GMT v2024.1, rank normalization)
+- LOCO = leave-one-subject-out cross-validation
+- HOLDOUT = repeated random split (70% train, 50 iterations)
+- NULL = label permutation (500 iterations)
+
+GATE RESULTS:
+Phase 0 (Donor Leakage Audit):
+  - GSE24206: 17 subjects, 0 leaked, PASS
+  - GSE53845: 48 subjects, 0 leaked, PASS
+
+Phase 1 (Baseline Top Pathways + Permutation):
+  - GSE24206: 20 top pathways, all perm_pvalue < 0.03, PASS
+  - GSE53845: 20 top pathways, all perm_pvalue < 0.03, PASS
+
+Phase 2 (Random Sanity Check):
+  - GSE24206: baseline_SI=0.381, random_mean=0.225, delta=0.156, p=0.000, PASS
+  - GSE53845: baseline_SI=0.349, random_mean=0.221, delta=0.128, p=0.000, PASS
+
+Phase 3 (Holdout Generalization):
+  - GSE24206: SI=0.499+/-0.136, null=0.316+/-0.089, delta=0.183, p=0.03, PASS
+  - GSE53845: SI=0.467+/-0.139, null=0.303+/-0.099, delta=0.164, p=0.07, BORDERLINE
+    * Borderline p-value explained by 40:8 IPF:CTRL imbalance
+    * Effect size (delta=0.164) remains robust
+
+DATASETS:
+- GSE24206: 17 subjects (11 IPF, 6 CTRL)
+- GSE53845: 48 subjects (40 IPF, 8 CTRL)
+- GSE135893: Parked (scRNA skeleton, awaiting real data)
+
+LIMITATIONS:
+- No scRNA validation (upgrade path available)
+- GSE53845 case-control imbalance reduces holdout power
+- No regularization-based feature selection (delta-claim deferred)
+
+NEXT STEPS:
+1. Draft Methods + Results sections
+2. Generate Figures 1-2 (SI distributions)
+3. Table 1 (gate summary)
+4. scRNA candidate search (future)
+

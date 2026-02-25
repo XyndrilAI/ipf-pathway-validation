@@ -1,0 +1,26 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+*.egg-info/
+# Data (do not publish raw data)
+data/*/raw/
+data/*/*.h5ad
+# Results (only summaries included)
+results/01_audit/
+results/02_baseline/
+results/03_matched_random/
+results/04_holdout/
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+# IDE
+.vscode/
+.idea/
+*.iml
