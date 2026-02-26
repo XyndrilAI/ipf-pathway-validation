@@ -1,4 +1,4 @@
-﻿# Pathway-Level IPF Signature Validation (PATH B)
+# Pathway-Level IPF Signature Validation (PATH B)
 
 [![Preprint](https://img.shields.io/badge/preprint-bioRxiv-blue)](https://www.biorxiv.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -24,13 +24,19 @@ Pathway-level IPF signatures demonstrate **robust reproducibility** across indep
 
 ## 💼 Commercial Services
 
-Looking for leakage-controlled validation for your research?
+Independent leakage-controlled validation with **success-only pricing** (no payment unless criteria met).
 
-- **Multi-Cohort Expansion:** Extend validation to additional datasets
-- **Lab Adoption:** Deploy framework in your environment
-- **Custom Validation:** Independent assessment of your signatures
+**Quick Decision:**
+- 📄 [**One-Pager**](business/ONE_PAGER.md) - Service overview (500 words)
+- 📋 [**Success Criteria**](business/APPENDIX_SUCCESS_CRITERIA.md) - Measurable thresholds
+- 📊 [**Comparison Table**](business/OFFERS_COMPARISON.md) - Which service?
 
-See [business offers](business/) for details. **Success-only pricing** (no payment unless criteria met).
+**Detailed Offers:**
+- [Multi-Cohort Expansion](business/OFFER_1_COHORT_EXPANSION.md) (€2,500, 21 days)
+- [Lab Adoption](business/OFFER_2_LAB_ADOPTION.md) (€4,500, 14-21 days)
+- [Custom Validation](business/OFFER_3_CUSTOM_VALIDATION.md) (€2,000-€3,000, 10-14 days)
+
+**Contact:** fusion@xyndril.dev
 
 ## Preprint & Reproducibility
 
