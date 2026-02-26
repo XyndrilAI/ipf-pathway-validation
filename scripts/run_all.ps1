@@ -165,6 +165,79 @@ Write-Host "`n[6/6] Verifying Manuscript Numbers" -ForegroundColor Green
 Assert-File (Join-Path $scripts "verify_manuscript.py")
 & python (Join-Path $scripts "verify_manuscript.py") | Tee-Object -FilePath (Join-Path $resDir "verification_report.txt")
 
+# ═════════════════════════════════════════════════════════════
+# [7/7] Robustness Grid (TOP_N sensitivity)
+# ═════════════════════════════════════════════════════════════
+Write-Host "`n[7/7] Robustness Grid (TOP_N sensitivity)" -ForegroundColor Green
+$robScript = Join-Path $scripts "robustness_grid.py"
+$plotScript = Join-Path $scripts "plot_robustness.py"
+
+if (Test-Path $robScript) {
+    foreach ($ds in $datasets) {
+        $meta   = Join-Path $dataDir "$($ds.name)/metadata.csv"
+        $scores = Join-Path $dataDir "$($ds.name)/pathway_scores.csv"
+        $robOut = Join-Path $resDir "robustness/$($ds.name)"
+
+        if (-not (Test-Path $scores)) {
+            Write-Host "  SKIP Robustness ($($ds.name)): pathway_scores.csv missing" -ForegroundColor Yellow
+            continue
+        }
+
+        New-Item -ItemType Directory -Force -Path $robOut | Out-Null
+
+        & python $robScript `
+            --dataset $ds.name `
+            --metadata $meta `
+            --scores $scores `
+            --unit-col $ds.unit `
+            --top-n-values "10,20,50" `
+            --seeds 5 `
+            --n-perm 100 `
+            --outdir $robOut
+
+        # Generate plots
+        if (Test-Path $plotScript) {
+            & python $plotScript (Join-Path $robOut "robustness_grid.csv")
+        }
+    }
+} else {
+    Write-Host "  SKIP: robustness_grid.py not found (optional)" -ForegroundColor Yellow
+}
+
+# ═════════════════════════════════════════════════════════════
+# [8/8] Stratified Holdout + Bootstrap CI
+# ═════════════════════════════════════════════════════════════
+Write-Host "`n[8/8] Stratified Holdout + Bootstrap CI" -ForegroundColor Green
+$stratScript = Join-Path $scripts "stratified_holdout.py"
+
+if (Test-Path $stratScript) {
+    foreach ($ds in $datasets) {
+        $meta   = Join-Path $dataDir "$($ds.name)/metadata.csv"
+        $scores = Join-Path $dataDir "$($ds.name)/pathway_scores.csv"
+        $stratOut = Join-Path $resDir "stratified/$($ds.name)"
+
+        if (-not (Test-Path $scores)) {
+            Write-Host "  SKIP Stratified ($($ds.name)): pathway_scores.csv missing" -ForegroundColor Yellow
+            continue
+        }
+
+        New-Item -ItemType Directory -Force -Path $stratOut | Out-Null
+
+        & python $stratScript `
+            --dataset $ds.name `
+            --metadata $meta `
+            --scores $scores `
+            --unit-col $ds.unit `
+            --top-n 20 `
+            --n-splits 50 `
+            --n-perm 500 `
+            --n-bootstrap 1000 `
+            --outdir $stratOut
+    }
+} else {
+    Write-Host "  SKIP: stratified_holdout.py not found (optional)" -ForegroundColor Yellow
+}
+
 # ── Done ────────────────────────────────────────────────────
 $elapsed = (Get-Date) - (Get-Date).Date   # rough; fine for a report
 Write-Host "`n========================================" -ForegroundColor Cyan
@@ -176,6 +249,8 @@ Write-Host "  results/01_audit/           - Phase 0 leakage audit" -ForegroundCo
 Write-Host "  results/02_baseline/        - Phase 1 baseline pathways" -ForegroundColor White
 Write-Host "  results/03_matched_random/  - Phase 2 random controls" -ForegroundColor White
 Write-Host "  results/04_holdout/         - Phase 3 holdout validation" -ForegroundColor White
+Write-Host "  results/stratified/         - Stratified holdout + bootstrap CI" -ForegroundColor White
+Write-Host "  results/robustness/         - TOP_N sensitivity grid" -ForegroundColor White
 Write-Host "  results/figures/            - Publication figures (PDF+PNG)" -ForegroundColor White
 Write-Host "  results/verification_report.txt  - Number verification" -ForegroundColor White
 

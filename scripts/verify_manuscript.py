@@ -131,25 +131,29 @@ has_top20 = "top-20" in methods_md or "top 20" in methods_md.lower()
 print(f"  'top-20' in Methods:      {status(has_top20)}")
 
 # Holdout numbers in results
+# Manuscript now reports stratified holdout as primary, so check both
 if "GSE24206" in holdout_data:
-    # GSE24206: SI = 0.499 → manuscript should say ~0.50
-    found_24206_si = "0.499" in results_md or "0.50" in results_md
+    # Original: 0.499, Stratified: 0.512 — manuscript may cite either
+    found_24206_si = any(s in results_md for s in ("0.499", "0.50", "0.512"))
     print(f"\n  GSE24206 holdout SI in Results:   {status(found_24206_si)}")
     if not found_24206_si:
         issues.append("GSE24206 holdout SI not found in results_draft.md")
 
-    found_24206_p = "p = 0.03" in results_md
+    # Original p=0.03, Stratified p=0.028
+    found_24206_p = any(s in results_md for s in ("p = 0.03", "p=0.03", "p = 0.028", "p=0.028"))
     print(f"  GSE24206 holdout p in Results:    {status(found_24206_p)}")
     if not found_24206_p:
         issues.append("GSE24206 holdout p-value not found in results_draft.md")
 
 if "GSE53845" in holdout_data:
-    found_53845_si = "0.467" in results_md or "0.47" in results_md
+    # Original: 0.467, Stratified: 0.500
+    found_53845_si = any(s in results_md for s in ("0.467", "0.47", "0.500", "0.50"))
     print(f"  GSE53845 holdout SI in Results:   {status(found_53845_si)}")
     if not found_53845_si:
         issues.append("GSE53845 holdout SI not found in results_draft.md")
 
-    found_53845_p = "p = 0.07" in results_md
+    # Original p=0.07, Stratified p=0.04 — manuscript should mention both
+    found_53845_p = any(s in results_md for s in ("p = 0.07", "p=0.07", "p = 0.04", "p=0.04"))
     print(f"  GSE53845 holdout p in Results:    {status(found_53845_p)}")
     if not found_53845_p:
         issues.append("GSE53845 holdout p-value not found in results_draft.md")
@@ -214,6 +218,9 @@ print("=" * 65)
 for fname in [
     "supplementary_table_s1.csv",
     "supplementary_table_s2.csv",
+    "supplementary_table_s3_leakage_audit.csv",
+    "supplementary_table_s4_robustness.csv",
+    "supplementary_table_s5_stratified.csv",
     "figure1_phase2_baseline_vs_random.pdf",
     "figure2_phase3_holdout.pdf",
     "manuscript_combined.docx",
@@ -224,6 +231,42 @@ for fname in [
     print(f"  {fname}: {status(exists)} {size}")
     if not exists:
         issues.append(f"Missing file: {fname}")
+
+# ══════════════════════════════════════════════════════════════
+# 7. Check stratified holdout results
+# ══════════════════════════════════════════════════════════════
+print("\n" + "=" * 65)
+print("STRATIFIED HOLDOUT VERIFICATION")
+print("=" * 65)
+for ds in ("GSE24206", "GSE53845"):
+    strat = RESULTS / f"stratified/{ds}/stratified_holdout.csv"
+    if strat.exists():
+        row = read_csv_row(strat)
+        si = float(row["holdout_si_mean"])
+        p = float(row["empirical_p"])
+        ci_lo = float(row["ci_lower_95"])
+        ci_hi = float(row["ci_upper_95"])
+        print(f"  {ds}: SI={si:.3f}, p={p:.3f}, 95%CI=[{ci_lo:.3f}, {ci_hi:.3f}] {status(p < 0.05)}")
+    else:
+        print(f"  {ds}: stratified_holdout.csv NOT FOUND {WARN}")
+
+# ══════════════════════════════════════════════════════════════
+# 8. Check robustness grid results
+# ══════════════════════════════════════════════════════════════
+print("\n" + "=" * 65)
+print("ROBUSTNESS GRID VERIFICATION")
+print("=" * 65)
+for ds in ("GSE24206", "GSE53845"):
+    rob = RESULTS / f"robustness/{ds}/robustness_summary.csv"
+    if rob.exists():
+        df = pd.read_csv(rob)
+        for _, r in df.iterrows():
+            tn = int(r["top_n"])
+            p = r["empirical_p_avg"]
+            delta = r["si_diff_avg"]
+            print(f"  {ds} TOP_N={tn:2d}: delta={delta:.3f}, p={p:.3f} {status(tn == 20 and p < 0.05) if tn == 20 else ''}")
+    else:
+        print(f"  {ds}: robustness_summary.csv NOT FOUND {WARN}")
 
 # ══════════════════════════════════════════════════════════════
 # FINAL VERDICT

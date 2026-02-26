@@ -1,0 +1,5 @@
+dataset,method,si_mean,si_std,ci_lower,ci_upper,null_mean,null_std,si_diff,empirical_p
+GSE24206,original,0.499,0.136,NA,NA,0.316,0.089,0.183,0.03
+GSE24206,stratified,0.512,0.110,0.481,0.543,0.322,0.088,0.191,0.028
+GSE53845,original,0.467,0.139,NA,NA,0.303,0.099,0.164,0.07
+GSE53845,stratified,0.500,0.143,0.464,0.540,0.314,0.098,0.186,0.04

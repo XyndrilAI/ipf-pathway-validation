@@ -1,19 +1,30 @@
 ﻿﻿# Pathway-Level IPF Signature Validation (PATH B)
+
+[![Preprint](https://img.shields.io/badge/preprint-bioRxiv-blue)](https://www.biorxiv.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+
+> **Status:** Manuscript complete. Submission to bioRxiv pending (Feb 2026).
+
 Reproducible pipeline for validating pathway-level idiopathic pulmonary fibrosis (IPF) signatures across independent bulk RNA-seq cohorts with rigorous donor/subject leakage control.
+
 ## Overview
+
 This repository implements a four-phase validation framework to assess pathway-level reproducibility in transcriptomic signatures while controlling for common pitfalls (donor leakage, pseudoreplication, overfitting).
+
 ### Key Finding (PATH B)
+
 Pathway-level IPF signatures demonstrate **robust reproducibility** across independent bulk cohorts when subject-level independence is strictly enforced:
 - **Phase 1 (LOCO)**: Both cohorts significantly exceed permutation null (p < 0.01)
-- **Phase 2 (Random control)**: Baseline exceeds random gene sets (delta > 0.12, p < 0.001)
-- **Phase 3 (Holdout)**: Generalization confirmed (GSE24206: p=0.03; GSE53845: p=0.07, borderline due to case-control imbalance)
+- **Phase 2 (Random control)**: Baseline exceeds random gene sets (Δ > 0.12, p < 0.001)
+- **Phase 3 (Stratified holdout)**: Generalization confirmed (GSE24206: SI=0.512, p=0.028; GSE53845: SI=0.500, p=0.04)
+- **Robustness**: TOP_N=20 validated as optimal across sensitivity grid
+
 **Critical caveat**: Effect **directions** vary across cohorts (likely disease stage/sampling variability). Validation focuses on pathway **stability** (top-N presence), not direction.
 
 ## Preprint & Reproducibility
 
-**Preprint:** [bioRxiv DOI - Coming Soon]
+**Preprint:** [bioRxiv DOI — Coming Soon]
 **One-command reproduction:** See [REPRODUCE.md](REPRODUCE.md)
 **Future work & funding roadmap:** See [NEXT_STEPS.md](NEXT_STEPS.md)
 

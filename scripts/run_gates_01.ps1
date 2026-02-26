@@ -123,4 +123,68 @@ foreach ($ds in $datasets) {
   }
 }
 
+# ── Robustness Grid (optional, if robustness_grid.py exists) ─────
+$robScript  = Join-Path $scripts "robustness_grid.py"
+$plotScript = Join-Path $scripts "plot_robustness.py"
+
+if (Test-Path $robScript) {
+  Write-Host "`n=== Robustness Grid (TOP_N sensitivity) ===" -ForegroundColor Green
+  foreach ($ds in $datasets) {
+    $scores = Join-Path $dataDir "$($ds.name)\pathway_scores.csv"
+    $meta   = Join-Path $dataDir "$($ds.name)\metadata.csv"
+    $robOut = Join-Path $resDir "robustness\$($ds.name)"
+
+    if (-not (Test-Path $scores)) {
+      Write-Host "SKIP Robustness $($ds.name): scores missing" -ForegroundColor Yellow
+      continue
+    }
+
+    New-Item -ItemType Directory -Force -Path $robOut | Out-Null
+
+    & python $robScript `
+      --dataset $ds.name `
+      --metadata $meta `
+      --scores $scores `
+      --unit-col $ds.unit `
+      --top-n-values "10,20,50" `
+      --seeds 5 `
+      --n-perm 100 `
+      --outdir $robOut
+
+    if (Test-Path $plotScript) {
+      & python $plotScript (Join-Path $robOut "robustness_grid.csv")
+    }
+  }
+}
+
+# ── Stratified Holdout + Bootstrap CI (optional) ─────────────────
+$stratScript = Join-Path $scripts "stratified_holdout.py"
+
+if (Test-Path $stratScript) {
+  Write-Host "`n=== Stratified Holdout + Bootstrap CI ===" -ForegroundColor Green
+  foreach ($ds in $datasets) {
+    $scores = Join-Path $dataDir "$($ds.name)\pathway_scores.csv"
+    $meta   = Join-Path $dataDir "$($ds.name)\metadata.csv"
+    $stratOut = Join-Path $resDir "stratified\$($ds.name)"
+
+    if (-not (Test-Path $scores)) {
+      Write-Host "SKIP Stratified $($ds.name): scores missing" -ForegroundColor Yellow
+      continue
+    }
+
+    New-Item -ItemType Directory -Force -Path $stratOut | Out-Null
+
+    & python $stratScript `
+      --dataset $ds.name `
+      --metadata $meta `
+      --scores $scores `
+      --unit-col $ds.unit `
+      --top-n 20 `
+      --n-splits 50 `
+      --n-perm 500 `
+      --n-bootstrap 1000 `
+      --outdir $stratOut
+  }
+}
+
 Write-Host "`nrun_gates_01.ps1 valmis. Tulokset: $resDir" -ForegroundColor Cyan
