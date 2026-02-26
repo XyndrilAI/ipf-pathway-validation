@@ -53,7 +53,7 @@ I provide:
 - All statistical gates PASS (p < 0.05, stratified)
 - Robustness confirmed (TOP_N sensitivity, bootstrap CI)
 - GitHub: https://github.com/XyndrilAI/ipf-pathway-validation
-- Manuscript: bioRxiv submission-ready
+- Manuscript submitted to bioRxiv (February 2026) - preprint DOI pending
 
 **Key result:**
 - Framework detected directional heterogeneity across cohorts

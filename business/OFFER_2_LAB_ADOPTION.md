@@ -43,11 +43,12 @@
 - Generates verification report (HTML/text)
 - CI/CD ready (can run in automated pipelines)
 
-✅ **Proven track record**
+✅ **Published Evidence (pending)**
 - 2 independent IPF cohorts validated (n=65 subjects)
 - All gates PASS (p < 0.05 both cohorts)
 - GitHub: https://github.com/XyndrilAI/ipf-pathway-validation
-- Manuscript ready for publication
+- Manuscript submitted to bioRxiv (February 2026)
+- Preprint DOI will be available within 24-48 hours
 
 ---
 

@@ -26,10 +26,10 @@
 - Automated verification (32 checks)
 - GitHub: https://github.com/XyndrilAI/ipf-pathway-validation
 
-✅ **Manuscript ready**
-- bioRxiv submission-ready
-- All supplementary tables (S1-S5)
-- Publication-quality figures
+✅ **Published Evidence (pending)**
+- Manuscript submitted to bioRxiv (February 2026)
+- Preprint DOI will be available within 24-48 hours
+- Full reproducibility: https://github.com/XyndrilAI/ipf-pathway-validation
 
 ---
 

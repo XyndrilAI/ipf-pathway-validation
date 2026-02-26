@@ -1,7 +1,7 @@
 # Leakage-Controlled Validation Services - One Pager
 
 **What:** Independent validation framework with audit trail (Phase 0-3 protocol)  
-**Evidence:** Validated on 2 IPF cohorts (n=65), bioRxiv [PENDING DOI]  
+**Evidence:** Validated on 2 IPF cohorts (65 subjects total). Manuscript submitted to bioRxiv (February 2026) - preprint link will be added once published.  
 **GitHub:** https://github.com/XyndrilAI/ipf-pathway-validation
 
 ---

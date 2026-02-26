@@ -1,10 +1,9 @@
 # Pathway-Level IPF Signature Validation (PATH B)
 
-[![Preprint](https://img.shields.io/badge/preprint-bioRxiv-blue)](https://www.biorxiv.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 
-> **Status:** Manuscript complete. Submission to bioRxiv pending (Feb 2026).
+> **Status:** Submitted to bioRxiv (February 2026). Awaiting publication and DOI assignment.
 
 Reproducible pipeline for validating pathway-level idiopathic pulmonary fibrosis (IPF) signatures across independent bulk RNA-seq cohorts with rigorous donor/subject leakage control.
 
@@ -40,7 +39,7 @@ Independent leakage-controlled validation with **success-only pricing** (no paym
 
 ## Preprint & Reproducibility
 
-**Preprint:** [bioRxiv DOI — Coming Soon]
+**Preprint:** Submitted to bioRxiv (February 2026) — DOI pending assignment
 **One-command reproduction:** See [REPRODUCE.md](REPRODUCE.md)
 **Future work & funding roadmap:** See [NEXT_STEPS.md](NEXT_STEPS.md)
 
