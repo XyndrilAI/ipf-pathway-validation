@@ -1,4 +1,4 @@
-﻿﻿# Pathway-Level IPF Signature Validation (PATH B)
+﻿# Pathway-Level IPF Signature Validation (PATH B)
 
 [![Preprint](https://img.shields.io/badge/preprint-bioRxiv-blue)](https://www.biorxiv.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,6 +21,16 @@ Pathway-level IPF signatures demonstrate **robust reproducibility** across indep
 - **Robustness**: TOP_N=20 validated as optimal across sensitivity grid
 
 **Critical caveat**: Effect **directions** vary across cohorts (likely disease stage/sampling variability). Validation focuses on pathway **stability** (top-N presence), not direction.
+
+## 💼 Commercial Services
+
+Looking for leakage-controlled validation for your research?
+
+- **Multi-Cohort Expansion:** Extend validation to additional datasets
+- **Lab Adoption:** Deploy framework in your environment
+- **Custom Validation:** Independent assessment of your signatures
+
+See [business offers](business/) for details. **Success-only pricing** (no payment unless criteria met).
 
 ## Preprint & Reproducibility
 
