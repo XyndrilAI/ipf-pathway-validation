@@ -1,4 +1,4 @@
-﻿# Pathway-Level IPF Signature Validation (PATH B)
+﻿﻿# Pathway-Level IPF Signature Validation (PATH B)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 Reproducible pipeline for validating pathway-level idiopathic pulmonary fibrosis (IPF) signatures across independent bulk RNA-seq cohorts with rigorous donor/subject leakage control.
@@ -10,6 +10,13 @@ Pathway-level IPF signatures demonstrate **robust reproducibility** across indep
 - **Phase 2 (Random control)**: Baseline exceeds random gene sets (delta > 0.12, p < 0.001)
 - **Phase 3 (Holdout)**: Generalization confirmed (GSE24206: p=0.03; GSE53845: p=0.07, borderline due to case-control imbalance)
 **Critical caveat**: Effect **directions** vary across cohorts (likely disease stage/sampling variability). Validation focuses on pathway **stability** (top-N presence), not direction.
+
+## Preprint & Reproducibility
+
+**Preprint:** [bioRxiv DOI - Coming Soon]
+**One-command reproduction:** See [REPRODUCE.md](REPRODUCE.md)
+**Future work & funding roadmap:** See [NEXT_STEPS.md](NEXT_STEPS.md)
+
 ## Datasets
 Public GEO datasets:
 - **GSE24206**: 17 IPF subjects (multi-lobe, aggregated to subject-level)
@@ -26,11 +33,21 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 ## Quick Start
-### Windows (PowerShell 7)
+
+### One-Command Pipeline (Recommended)
 ```powershell
-cd scripts
-pwsh -ExecutionPolicy Bypass -File .\run_gates_01.ps1
+# Windows (PowerShell 7)
+pwsh -ExecutionPolicy Bypass -File scripts\run_all.ps1
 ```
+
+This runs all 6 steps: Phase 0 audit -> Phase 1 baseline -> Phase 2 random control -> Phase 3 holdout -> Figures -> Verification.
+
+### Per-Phase Execution
+```powershell
+# Or run the gate-based runner (same phases, alternative script)
+pwsh -ExecutionPolicy Bypass -File scripts\run_gates_01.ps1
+```
+
 ### Manual execution (cross-platform)
 ```bash
 # Phase 0: Donor leakage audit
@@ -80,10 +97,20 @@ python scripts/make_figures.py
 ```
 ipf-pathway-validation/
   scripts/          # All validation scripts
+    run_all.ps1     # One-command full pipeline
+    run_gates_01.ps1 # Gate-based runner
+    phase_0_audit.py
+    phase_1_baseline.py
+    phase_2_matched_random.py
+    phase_3_holdout.py
+    make_figures.py
+    verify_manuscript.py
   docs/             # RUNBOOK + environment spec
   paper/            # Manuscript sections + figures
   reproducibility/  # Summary artifacts
   data/             # (not included - use GEO accessions)
+  REPRODUCE.md      # One-command reproduction guide
+  NEXT_STEPS.md     # Fundable extension roadmap
 ```
 ## Documentation
 - **Full methodology**: `paper/methods_draft.md`
